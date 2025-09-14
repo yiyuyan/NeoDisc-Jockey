@@ -183,16 +183,14 @@ public class SongPlayer implements StartWorldTick {
                         }
                         Vec3d unit = Vec3d.ofCenter(blockPos, 0.5).subtract(client.player.getEyePos()).normalize();
                         if((lastLookSentAt == -1L || now - lastLookSentAt >= 50) && last100MsSpanEstimatedPackets < last100MsReducePacketsAfter && (reducePacketsUntil == -1L || reducePacketsUntil < now)) {
-                            Objects.requireNonNull(client.getNetworkHandler()).sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(MathHelper.wrapDegrees((float) (MathHelper.atan2(unit.z, unit.x) * 57.2957763671875) - 90.0f), MathHelper.wrapDegrees((float) (-(MathHelper.atan2(unit.y, Math.sqrt(unit.x * unit.x + unit.z * unit.z)) * 57.2957763671875))), true));
+                            Objects.requireNonNull(client.getNetworkHandler()).getConnection().send(new PlayerMoveC2SPacket.LookAndOnGround(MathHelper.wrapDegrees((float) (MathHelper.atan2(unit.z, unit.x) * 57.2957763671875) - 90.0f), MathHelper.wrapDegrees((float) (-(MathHelper.atan2(unit.y, Math.sqrt(unit.x * unit.x + unit.z * unit.z)) * 57.2957763671875))), true));
                             last100MsSpanEstimatedPackets++;
                             lastLookSentAt = now;
                         }else if(last100MsSpanEstimatedPackets >= last100MsReducePacketsAfter){
                             reducePacketsUntil = Math.max(reducePacketsUntil, now + 500);
                         }
                         if(last100MsSpanEstimatedPackets < last100MsStopPacketsAfter && (stopPacketsUntil == -1L || stopPacketsUntil < now)) {
-                            // TODO: 5/30/2022 Check if the block needs tuning
-                            //client.interactionManager.attackBlock(blockPos, Direction.UP);
-                            client.player.networkHandler.sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, Direction.UP, 0));
+                            client.player.networkHandler.getConnection().send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, Direction.UP, 0));
                             last100MsSpanEstimatedPackets++;
                         }else if(last100MsSpanEstimatedPackets >= last100MsStopPacketsAfter) {
                             Main.LOGGER.info("Stopping all packets for a bit!");
@@ -200,7 +198,7 @@ public class SongPlayer implements StartWorldTick {
                             reducePacketsUntil = Math.max(reducePacketsUntil, now + 10000);
                         }
                         if(last100MsSpanEstimatedPackets < last100MsReducePacketsAfter && (reducePacketsUntil == -1L || reducePacketsUntil < now)) {
-                            client.player.networkHandler.sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, Direction.UP, 0));
+                            client.player.networkHandler.getConnection().send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, Direction.UP, 0));
                             last100MsSpanEstimatedPackets++;
                         }else if(last100MsSpanEstimatedPackets >= last100MsReducePacketsAfter){
                             reducePacketsUntil = Math.max(reducePacketsUntil, now + 500);
@@ -237,8 +235,6 @@ public class SongPlayer implements StartWorldTick {
         }
     }
 
-    // TODO: 6/2/2022 Play note blocks every song tick, instead of every tick. That way the song will sound better
-    //      11/1/2023 Playback now done in separate thread. Not ideal but better especially when FPS are low.
     @Override
     public void onStartTick(ClientWorld world) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -476,7 +472,6 @@ public class SongPlayer implements StartWorldTick {
             }
             if(lastBlockPos != null) {
                 // Turn head into spinning with time and lookup up further the further tuning is progressed
-                //client.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(((float) (System.currentTimeMillis() % 2000)) * (360f/2000f), (1 - roughTuneProgress) * 180 - 90, true));
                 client.player.swingHand(Hand.MAIN_HAND);
             }
         }else if((playbackThread == null || !playbackThread.isAlive()) && running && Main.config.disableAsyncPlayback) {
