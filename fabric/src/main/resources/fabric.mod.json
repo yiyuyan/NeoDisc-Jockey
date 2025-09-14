@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "disc_jockey",
+  "version": "${version}",
+  "name": "NeoDiscJockey",
+  "description": "",
+  "authors": [
+    "SemmieDev",
+    "KSmc_brigade"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/disc_jockey/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "cn.ksmcbrigade.dj.fabric.NeoDiscJockeyModFabric"
+    ],
+    "modmenu": [
+      "cn.ksmcbrigade.dj.fabric.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "disc_jockey.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.21",
+    "java": ">=21",
+    "architectury": ">=13.0.8",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

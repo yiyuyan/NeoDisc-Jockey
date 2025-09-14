@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "semmiedev.disc_jockey.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "ClientWorldMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

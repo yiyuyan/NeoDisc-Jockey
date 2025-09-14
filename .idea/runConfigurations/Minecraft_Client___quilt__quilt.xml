@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" factoryName="Application" name="Minecraft Client (:quilt)" type="Application">
+    <option name="MAIN_CLASS_NAME" value="dev.architectury.transformer.TransformerRuntime"/>
+    <module name="disc_jockey.quilt.main"/>
+    <option name="PROGRAM_PARAMETERS" value=""/>
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=F:\disc_jockey-1.21-fabric-quilt-neoforge-template\quilt\.gradle\loom-cache\launch.cfg -Dfabric.dli.env=client -Dfabric.dli.main=org.quiltmc.loader.impl.launch.knot.KnotClient -Darchitectury.main.class=F:\disc_jockey-1.21-fabric-quilt-neoforge-template\quilt\.gradle\architectury\.main_class -Darchitectury.runtime.transformer=F:\disc_jockey-1.21-fabric-quilt-neoforge-template\quilt\.gradle\architectury\.transforms -Darchitectury.properties=F:\disc_jockey-1.21-fabric-quilt-neoforge-template\quilt\.gradle\architectury\.properties -Djdk.attach.allowAttachSelf=true -javaagent:F:\disc_jockey-1.21-fabric-quilt-neoforge-template\.gradle\architectury\architectury-transformer-agent.jar"/>
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/quilt/run/"/>
+    <method v="2">
+      <option enabled="true" name="Make"/>
+    </method>
+    <envs>
+      
+    </envs>
+    <shortenClasspath name="ARGS_FILE"/>
+  <classpathModifications/></configuration>
+</component>
